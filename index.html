@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa Interactivo del Parque Metropolitano de Santiago</title>
+    <style>
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+#mapa {
+    position: relative;
+    display: inline-block;
+}
+
+#imagen-mapa {
+    width: 140%;
+    max-width: 1400px;
+}
+
+#avatar {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    transition: all 1s ease;
+    z-index: 2;
+}
+
+.estacion {
+    position: absolute;
+    width: 90px;
+    height: 90px;
+    background-color: rgba(0, 0, 255, 0.5);
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    z-index: 1;
+}
+
+#estacion1 {
+    top: 45%;
+    left: 25%;
+}
+
+#estacion2 {
+    top: 55%;
+    left: 50%;
+}
+
+#estacion3 {
+    top: 45%;
+    left: 85%;
+}
+
+#estacion4 {
+    top: 30%;
+    left: 120%;
+}
+    </style>
+</head>
+<body>
+    <h1>Mapa Interactivo del Parque Metropolitano de Santiago</h1>
+    <div id="mapa">
+        <img src="Imagen-Mapa-cerro.jpg" alt="Mapa del Parque Metropolitano de Santiago" id="imagen-mapa">
+        <img src="avatar.png" id="avatar" alt="Avatar">
+        <div class="estacion" id="estacion1" data-audio="audio1.mp3">Estación 1</div>
+        <div class="estacion" id="estacion2" data-audio="audio2.mp3">Estación 2</div>
+        <div class="estacion" id="estacion3" data-audio="audio3.mp3">Estación 3</div>
+        <div class="estacion" id="estacion4" data-audio="audio4.mp3">Estación 4</div>
+    </div>
+    <audio id="audio" controls></audio>
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const avatar = document.getElementById('avatar');
+    const audio = document.getElementById('audio');
+    const estaciones = document.querySelectorAll('.estacion');
+
+    estaciones.forEach(estacion => {
+        estacion.addEventListener('click', function() {
+            const rect = this.getBoundingClientRect();
+            const mapRect = document.getElementById('mapa').getBoundingClientRect();
+
+            // Mover avatar a la posición de la estación
+            avatar.style.top = (rect.top - mapRect.top + rect.height / 2 - avatar.offsetHeight / 2) + 'px';
+            avatar.style.left = (rect.left - mapRect.left + rect.width / 2 - avatar.offsetWidth / 2) + 'px';
+
+            // Reproducir audio correspondiente
+            audio.src = this.getAttribute('data-audio');
+            audio.play();
+        });
+    });
+});
+    </script>
+</body>
+</html>
